@@ -2,11 +2,9 @@ version: '3'
 
 volumes:
   prometheus_data:
-    name: prometheus_data
     driver: local
 
   grafana_data:
-    name: grafana_data
     driver: local
 
 networks:
@@ -31,12 +29,18 @@ services:
     ports:
       - 9090:9090
 
-  snmp_exporter:
-    container_name: snmp_exporter
+  snmp-exporter:
+    container_name: snmp-exporter
     image: prom/snmp-exporter
     restart: unless-stopped
+    volumes:
+      - './config/prometheus/snmp.yml:/etc/prometheus/snmp.yml'
+    command:
+      - '--config.file=/etc/prometheus/snmp.yml'
     networks:
       - monitoring
+    ports:
+      - 9116:9116
 
   grafana:
     container_name: grafana
