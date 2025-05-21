@@ -11,14 +11,15 @@ scrape_configs:
   - job_name: "snmp"
     static_configs:
       - targets:
-          - 192.168.1.7:161
+          - 172.19.0.5
     metrics_path: /snmp
     params:
-      module: [testing_mib]
+      module: [custom_module]
+      auth: [default]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: localhost:9116 # The SNMP exporter's real hostname:port.
+        replacement: snmp-exporter:9116 # The SNMP exporter's real hostname:port.

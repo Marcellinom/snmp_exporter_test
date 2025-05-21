@@ -34,13 +34,11 @@ services:
     image: prom/snmp-exporter
     restart: unless-stopped
     volumes:
-      - './config/prometheus/snmp.yml:/etc/prometheus/snmp.yml'
+      - './config/prometheus/snmpv2.yml:/etc/snmp_exporter/snmp.yml'
     command:
-      - '--config.file=/etc/prometheus/snmp.yml'
+      - '--config.file=/etc/snmp_exporter/snmp.yml'
     networks:
       - monitoring
-    ports:
-      - 9116:9116
 
   grafana:
     container_name: grafana
@@ -52,4 +50,4 @@ services:
     networks:
       - monitoring
     ports:
-      - 3000:3000
+      - 5000:5000
